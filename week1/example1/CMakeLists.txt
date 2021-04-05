@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( example1 )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( ShowCV ShowCV.cpp )
+target_link_libraries( ShowCV ${OpenCV_LIBS} )
