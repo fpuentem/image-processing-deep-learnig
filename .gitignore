@@ -36,6 +36,8 @@
 *.jpg
 *.png
 *.ppm
+*.pgm
+*.pbm
 
 # Cmake
 CMakeLists.txt.user
