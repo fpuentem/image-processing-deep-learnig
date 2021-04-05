@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( exercise1 )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( DrawBlueExtern.o DrawBlueExtern.cpp )
+target_link_libraries( DrawBlueExtern.o ${OpenCV_LIBS} )
