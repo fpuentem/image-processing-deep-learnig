@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( example1 )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( borderTypeTest.o borderTypeTest.cpp )
+target_link_libraries( borderTypeTest.o ${OpenCV_LIBS} )
