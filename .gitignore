@@ -38,6 +38,7 @@
 *.ppm
 *.pgm
 *.pbm
+*.tga
 
 # Cmake
 CMakeLists.txt.user
