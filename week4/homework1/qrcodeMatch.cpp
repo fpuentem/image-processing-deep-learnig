@@ -44,7 +44,7 @@ int main(){
     filter2D(a, p, -1, q, Point(-1, -1), 0, BORDER_REPLICATE);
 
     p.convertTo(temp, CV_8U, 255.0, 0.0);
-    imwrite("correlacao3.png", temp);
+    imwrite("correlacaQR.png", temp);
 
     a.convertTo(temp, CV_8U, 255.0, 0.0);
     Mat_<Vec3b> d;
@@ -53,13 +53,13 @@ int main(){
 
     for(int l = 0; l < a.rows; l++){
         for(int c = 0; c < a.cols; c++){
-            if( p(l, c) >= 0.40 ){
-                rectangle( d, Point(c-35,l-35), Point(c+35,l+35), Scalar(0,0,255), 6 );   
+            if( p(l, c) >= 0.80 ){
+                rectangle( d, Point(c-35,l-35), Point(c+35,l+35), Scalar(0,255,0), 4 );   
             }
         }
     }
 
-    imwrite("ocorrencia3.png", d);
+    imwrite("ocorrenciaQR.png", d);
 
 }
 
