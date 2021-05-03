@@ -20,7 +20,7 @@ Mat_<unsigned char> features33(Mat_<unsigned char> a, int lc, int cc) {
 
 
 int main() {
-    // 
+    // Read images to train
     Mat_<unsigned char> ax; 
     ax = imread( "../aprendizagem/janei.pgm", IMREAD_GRAYSCALE );
     
@@ -30,7 +30,7 @@ int main() {
     Mat_<unsigned char> qx; 
     qx = imread( "../aprendizagem/julho.pgm", IMREAD_GRAYSCALE );
 
-    // 
+    // Declare img containers
     Mat_<Vec3b> colorQp; 
     cvtColor(qx, colorQp, COLOR_GRAY2BGR);
 
@@ -38,11 +38,11 @@ int main() {
     Mat_<unsigned char> tmp(qx.rows,qx.cols);
     Mat_<unsigned char> tmp1(qx.rows,qx.cols);
 
-    //
+    // Declare matrix of feature and output
     Mat_<float> features((ax.rows-1)*(ax.cols-1), 9);	
     Mat_<float> saidas((ax.rows-1)*(ax.cols-1), 1);
 
-    // 
+    // Create features matrix, 9 features per pixel
     int i = 0;
     for (int l=1; l < ax.rows-1; l++){				
         for (int c=1; c < ax.cols-1; c++){
@@ -58,10 +58,10 @@ int main() {
         }
     }
 
-    //
+    // Create object ind of OpenCV
     flann::Index ind(features, flann::KDTreeIndexParams(4));	
 
-    //
+    // Get queries from KDtree
     Mat_<float> query(1,9);								
     vector<int> indices(1);								
     vector<float> dists(1);								
@@ -74,11 +74,11 @@ int main() {
         }
     }
 
-    //
+    // Median blur to delete noise
     medianBlur(qp, tmp1, 5);
     medianBlur(tmp1, tmp, 7);
 
-    //
+    // Paint red par of interest
     for (int l=0; l<qp.rows; l++){
         for (int c=0; c<qp.cols; c++) {
             if(tmp(l, c) == 0)
