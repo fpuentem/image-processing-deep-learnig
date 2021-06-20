@@ -1,20 +1,28 @@
+# treino_transf.py
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL']='3'
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH']='true'
 
-# Listing 5.16 Instantiating the VGG16 convolutional base
+# Instantiating the VGG16 convolutional base
 from tokenize import PlainToken
 from keras.applications import VGG16
 from tensorflow.python.ops.variables import trainable_variables
+
+import matplotlib.pyplot as plt
+
+from keras import models
+from keras import layers
+
+from keras.preprocessing.image import ImageDataGenerator
+from keras import optimizers
 
 conv_base = VGG16(weights='imagenet', 
                   include_top=False, 
                   input_shape=(150, 150, 3))
 
-# Listing 5.20 Adding a densely connected classifier on the top of the convolutional base
-from keras import models
-from keras import layers
+conv_base.summary()
 
+# Adding a densely connected classifier on the top of the convolutional base
 model = models.Sequential()
 model.add(conv_base)
 model.add(layers.Flatten())
@@ -23,7 +31,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
 
 model.summary()
 
-# Listing 5.22 Freesing all layers up to a specific one
+# Freesing all layers up to a specific one
 conv_base.trainable = True
 
 set_trainable = False
@@ -35,10 +43,7 @@ for layer in conv_base.layers:
     else:
         layer.trainable = False
 
-# Listing 5.23 Fine-tuning the model
-from keras.preprocessing.image import ImageDataGenerator
-from keras import optimizers
-
+# Fine-tuning the model
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=40,
@@ -66,8 +71,6 @@ validation_generator = test_datagen.flow_from_directory(validation_dir,
                                                         batch_size=32,
                                                         class_mode='binary')
 
-
-
 model.compile(loss='binary_crossentropy',
               optimizer=optimizers.RMSprop(lr=1e-5), 
               metrics=['accuracy'])
@@ -75,15 +78,15 @@ model.compile(loss='binary_crossentropy',
 history = model.fit_generator(
                     train_generator, 
                     steps_per_epoch=100,
-                    epochs=100,
+                    epochs=45,
                     validation_data=validation_generator,
                     validation_steps=50)
 
 # Saving the model
 model.save('./transf.h5')
             
-# Listing 5.24 Smoothing the plots
-import matplotlib.pyplot as plt
+# Smoothing the plots
+
 # ['accuracy', 'loss', 'val_accuracy', 'val_loss']
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
